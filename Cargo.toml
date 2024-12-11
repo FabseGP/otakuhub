@@ -131,7 +131,7 @@ tailwind-config-file = "tailwind.config.js"
 assets-dir = "public"
 
 # The ip and port for the server to be hosted at
-site-addr = "127.0.0.1:3000"
+site-addr = "127.0.0.1:9999"
 
 # The port to use for automatic reload monitoring
 reload-port = 3001
