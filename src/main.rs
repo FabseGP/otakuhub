@@ -132,13 +132,17 @@ async fn main() {
         .unwrap();
 
     let conf = get_configuration(None).expect("config set in Cargo.toml");
-    let addr = conf.leptos_options.site_addr;
+
+    let mut leptos_options = conf.leptos_options;
+    leptos_options.reload_ws_protocol = "wss".into();
+
+    let addr = leptos_options.site_addr;
 
     let routes = generate_route_list(App);
 
     let app_state = AppState {
         pool,
-        leptos_options: conf.leptos_options,
+        leptos_options,
         routes: routes.clone(),
     };
 
