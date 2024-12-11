@@ -1,0 +1,12 @@
+query MediaQuery($search: String!) {
+  Page {
+    media(search: $search, type: ANIME) {
+      id
+      title {
+        romaji
+        english
+        native
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+[Main]
+#log_level = 
+#jaeger = 
+#site_name = 
+
+[PostgreSQL]
+#database =
+#password =
+#host =
+#user =
+#max_connections =

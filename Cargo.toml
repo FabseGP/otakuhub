@@ -1,0 +1,174 @@
+[package]
+name = "otakuhub"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+leptos = { version = "0", features = ["nightly"] }
+leptos_router = { version = "0", features = ["nightly"] }
+axum = { version = "0", features = ["macros"], optional = true }
+axum-login = { version = "0", optional = true }
+console_error_panic_hook = "0"
+fastrand = { version = "2", optional = true }
+http = "1"
+leptos_axum = { version = "0", optional = true }
+leptos_meta = { version = "0" }
+mini-moka = { git = "https://github.com/moka-rs/mini-moka.git", branch = "v0.11.x", optional = true }
+once_cell = { version = "1", optional = true } 
+opentelemetry = { version = "0", optional = true }
+opentelemetry-otlp = { version = "0", default-features = false, features = ["grpc-tonic", "trace"], optional = true }
+opentelemetry_sdk = { version = "0", default-features = false, features = ["rt-tokio", "trace"], optional = true }
+reqwest = { version = "0", default-features = false, features = ["json", "rustls-tls"], optional = true }
+rss = { version = "2", optional = true }
+serde = "1"
+sqlx = { version = "0", default-features = false, features = ["macros", "postgres", "runtime-tokio", "tls-rustls"], optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "signal"], optional = true }
+tower = { version = "0", optional = true }
+wasm-bindgen = "0"
+thiserror = "1"
+toml = { version = "0", optional = true }
+tracing = { version = "0", optional = true }
+tracing-opentelemetry = { version = "0", default-features = false, optional = true }
+tracing-subscriber = { version = "0", optional = true }
+winnow = { version = "0", features = ["simd"], optional = true }
+urlencoding = "2"
+tower-sessions-sqlx-store = { version = "0", optional = true, features = ["postgres"] }
+tower-sessions = { version = "0", optional = true }
+time = { version = "0", optional = true }
+password-hash = { version = "0", optional = true }
+argon2 = { version = "0", optional = true }
+cfg-if = "1"
+async-trait = { version = "0", optional = true }
+meilisearch-sdk = { version = "0", optional = true }
+graphql_client = { version = "0", optional = true }
+governor = { version = "0", optional = true }
+futures = { version = "0", optional = true }
+
+[features]
+hydrate = ["leptos/hydrate"]
+ssr = [
+    "dep:axum",
+    "dep:tokio",
+    "dep:tower",
+    "dep:leptos_axum",
+    "leptos/ssr",
+    "leptos_meta/ssr",
+    "leptos_router/ssr",
+    "dep:opentelemetry",
+    "dep:opentelemetry-otlp",
+    "dep:opentelemetry_sdk",
+    "dep:tracing",
+    "dep:tracing-subscriber",
+    "dep:tracing-opentelemetry",
+    "dep:sqlx",
+    "dep:reqwest",
+    "dep:toml",
+    "dep:mini-moka",
+    "dep:winnow",
+    "dep:fastrand",
+    "dep:rss",
+    "dep:once_cell",
+    "dep:axum-login",
+    "dep:tower-sessions-sqlx-store",
+    "dep:tower-sessions",
+    "dep:time",
+    "dep:password-hash",
+    "dep:argon2",
+    "dep:async-trait",
+    "dep:meilisearch-sdk",
+    "dep:graphql_client",
+    "dep:governor",
+    "dep:futures"
+]
+
+# Defines a size-optimized profile for the WASM bundle in release mode
+[profile.wasm-release]
+inherits = "release"
+strip = true
+opt-level = 'z'
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = true
+panic = "abort"
+
+[profile.dev]
+panic = "abort"
+
+[package.metadata.leptos]
+# The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name
+output-name = "otakuhub"
+
+# The site root folder is where cargo-leptos generate all output. WARNING: all content of this folder will be erased on a rebuild. Use it in your server setup.
+site-root = "target/site"
+
+# The site-root relative folder where all compiled output (JS, WASM and CSS) is written
+# Defaults to pkg
+site-pkg-dir = "pkg"
+
+# The tailwind input file.
+#
+# Optional, Activates the tailwind build
+tailwind-input-file = "style/tailwind.css"
+
+# The tailwind config file.
+#
+# Optional, defaults to "tailwind.config.js" which if is not present
+# is generated for you
+tailwind-config-file = "tailwind.config.js"
+
+# Assets source dir. All files found here will be copied and synchronized to site-root.
+# The assets-dir cannot have a sub directory with the same name/path as site-pkg-dir.
+#
+# Optional. Env: LEPTOS_ASSETS_DIR.
+assets-dir = "public"
+
+# The ip and port for the server to be hosted at
+site-addr = "127.0.0.1:3000"
+
+# The port to use for automatic reload monitoring
+reload-port = 3001
+
+# [Optional] Command to use when running end2end tests. It will run in the end2end dir.
+#   [Windows] for non-WSL use "npx.cmd playwright test"
+#   This binary name can be checked in Powershell with Get-Command npx
+end2end-cmd = "pnpm exec playwright test"
+end2end-dir = "end2end"
+
+#  The browserlist query used for optimizing the CSS.
+browserquery = "defaults"
+
+# The environment Leptos will run in, usually either "DEV" or "PROD"
+env = "PROD"
+
+# The features to use when compiling the bin target
+#
+# Optional. Can be over-ridden with the command line parameter --bin-features
+bin-features = ["ssr"]
+
+# If the --no-default-features flag should be used when compiling the bin target
+#
+# Optional. Defaults to false.
+bin-default-features = true
+
+# The features to use when compiling the lib target
+#
+# Optional. Can be over-ridden with the command line parameter --lib-features
+lib-features = ["hydrate"]
+
+# If the --no-default-features flag should be used when compiling the lib target
+#
+# Optional. Defaults to false.
+lib-default-features = true
+
+# The profile to use for the lib target when compiling for release
+#
+# Optional. Defaults to "release".
+lib-profile-release = "wasm-release"
