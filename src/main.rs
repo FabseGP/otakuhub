@@ -69,9 +69,11 @@ async fn main() {
         .unwrap();
     session_store.migrate().await.unwrap();
 
-    let session_layer = SessionManagerLayer::new(session_store.clone()).with_expiry(
-        Expiry::OnInactivity(Duration::seconds(auth_config.session_timeout_seconds)),
-    );
+    let session_layer = SessionManagerLayer::new(session_store.clone())
+        .with_secure(false)
+        .with_expiry(Expiry::OnInactivity(Duration::seconds(
+            auth_config.session_timeout_seconds,
+        )));
 
     spawn(
         session_store

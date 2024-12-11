@@ -17,7 +17,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <AutoReload options=options.clone() />
                 <HydrationScripts options />
                 <MetaTags />
-                <Stylesheet id="leptos" href="/pkg/fabseanimanga.css" />
+                <Stylesheet id="leptos" href="/pkg/otakuhub.css" />
             </head>
             <body>
                 <App />
