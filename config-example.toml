@@ -7,5 +7,18 @@
 #database =
 #password =
 #host =
+#port = 
 #user =
 #max_connections =
+
+[Auth]
+#session_timeout_seconds =
+#session_cleanup_interval_seconds =
+#table_name =
+
+[Meilisearch]
+#host = 
+#master_key = 
+
+[APIS]
+#fetch_interval_hours = 

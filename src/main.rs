@@ -54,6 +54,7 @@ async fn main() {
 
     let pool_options = PgConnectOptions::new()
         .host(&postgres_config.host)
+        .port(postgres_config.port)
         .username(&postgres_config.user)
         .database(&postgres_config.database)
         .password(&postgres_config.password);
