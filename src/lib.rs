@@ -1,6 +1,5 @@
 #![feature(let_chains)]
 #![feature(duration_constructors)]
-#![feature(async_closure)]
 
 pub mod apis;
 pub mod app;
@@ -21,7 +20,7 @@ cfg_if::cfg_if! {
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
 pub fn hydrate() {
-    use crate::app::*;
+    use app::*;
     console_error_panic_hook::set_once();
     leptos::mount::hydrate_body(App);
 }

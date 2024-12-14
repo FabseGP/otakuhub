@@ -4,6 +4,7 @@ use crate::{
     config::shared::*,
 };
 use leptos::prelude::*;
+use leptos_meta::Title;
 
 #[server(UserExists, "/api", "Url", "user_exists")]
 pub async fn user_exists(user: String) -> Result<bool, ServerFnError> {
@@ -124,7 +125,7 @@ pub fn SignupPage() -> impl IntoView {
     });
 
     view! {
-        <leptos_meta::Title text="Register"></leptos_meta::Title>
+        <Title text="Register"></Title>
         <NavBar />
         <div class="bg-base-200 min-h-screen flex items-center justify-center p-4">
             <div class="card lg:card-side bg-base-100 shadow-xl max-w-4xl w-full">

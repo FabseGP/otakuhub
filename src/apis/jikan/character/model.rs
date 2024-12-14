@@ -27,6 +27,7 @@ pub struct Character {
     pub name: String,
     pub name_kanji: Option<String>,
     pub nicknames: Vec<String>,
+    pub favorites: i32,
     pub about: Option<String>,
 }
 

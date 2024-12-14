@@ -21,8 +21,10 @@ pub struct MangaItems {
 
 #[derive(Deserialize, Serialize, Clone)]
 pub struct Manga {
+    pub mal_id: i32,
     pub url: String,
     pub images: MangaImageTypes,
+    pub approved: bool,
     pub trailer: MangaTrailerInfo,
     pub titles: Vec<MangaTitleTypes>,
     #[serde(rename = "type")]
@@ -30,8 +32,8 @@ pub struct Manga {
     pub chapters: Option<i32>,
     pub volumes: Option<i32>,
     pub status: String,
+    pub publishing: bool,
     pub published: MangaAired,
-    pub duration: Option<String>,
     pub score: Option<f32>,
     pub rank: Option<i32>,
     pub popularity: Option<i32>,

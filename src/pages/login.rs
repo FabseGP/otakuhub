@@ -30,11 +30,11 @@ pub fn LoginPage() -> impl IntoView {
     let logged_in_user = Resource::new(
         move || login.version().get(),
         move |_user| async move {
-            if let Ok(Some(user)) = get_user().await {
+            if let Ok(Some(_)) = get_user().await {
                 login_error.set(None);
-                Some(user)
+                true
             } else {
-                None
+                false
             }
         },
     );
@@ -60,7 +60,7 @@ pub fn LoginPage() -> impl IntoView {
     });
 
     Effect::new(move || {
-        if let Some(Some(_)) = logged_in_user.get() {
+        if logged_in_user.get() == Some(true) {
             let nav = use_navigate();
             nav("/", NavigateOptions::default());
         }

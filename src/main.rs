@@ -27,11 +27,18 @@ async fn main() {
         routes::{leptos_routes_handler, server_func_handler},
     };
     use sqlx::postgres::{PgConnectOptions, PgPoolOptions};
-    use std::{fs::read_to_string, sync::Arc};
+    use std::{fs::read_to_string, net::SocketAddr, sync::Arc};
     use time::Duration;
     use tokio::{net::TcpListener, task::spawn, time::Duration as TDuration};
     use toml::{Table, Value};
     use tower::ServiceBuilder;
+    use tower_governor::{
+        GovernorLayer, governor::GovernorConfigBuilder, key_extractor::SmartIpKeyExtractor,
+    };
+    use tower_http::compression::{
+        CompressionLayer, CompressionLevel, Predicate,
+        predicate::{NotForContentType, SizeAbove},
+    };
     use tower_sessions::{Expiry, SessionManagerLayer, session_store::ExpiredDeletion};
     use tower_sessions_sqlx_store::PostgresStore;
     use tracing::{Level, info};
@@ -142,20 +149,45 @@ async fn main() {
 
     let app_state = AppState {
         pool,
-        leptos_options,
+        leptos_options: leptos_options.clone(),
         routes: routes.clone(),
     };
+
+    let predicate = SizeAbove::new(1500)
+        .and(NotForContentType::GRPC)
+        .and(NotForContentType::IMAGES)
+        .and(NotForContentType::const_new("application/javascript"))
+        .and(NotForContentType::const_new("application/wasm"))
+        .and(NotForContentType::const_new("text/css"));
 
     let app = Router::new()
         .leptos_routes_with_handler(routes, get(leptos_routes_handler))
         .route("/api/*fn_name", post(server_func_handler))
         .fallback(file_and_error_handler::<AppState, _>(shell))
         .layer(auth_session_layer)
+        .layer(
+            CompressionLayer::new()
+                .quality(CompressionLevel::Default)
+                .compress_when(predicate),
+        )
+        .layer(GovernorLayer {
+            config: Arc::new(
+                GovernorConfigBuilder::default()
+                    .key_extractor(SmartIpKeyExtractor)
+                    .finish()
+                    .unwrap(),
+            ),
+        })
         .with_state(app_state);
 
     let listener = TcpListener::bind(&addr).await.unwrap();
     info!("Listening on http://{}", &addr);
-    serve(listener, app.into_make_service()).await.unwrap();
+    serve(
+        listener,
+        app.into_make_service_with_connect_info::<SocketAddr>(),
+    )
+    .await
+    .unwrap();
 }
 
 #[cfg(not(feature = "ssr"))]

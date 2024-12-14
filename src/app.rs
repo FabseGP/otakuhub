@@ -18,6 +18,7 @@ pub fn shell(options: LeptosOptions) -> impl IntoView {
                 <HydrationScripts options />
                 <MetaTags />
                 <Stylesheet id="leptos" href="/pkg/otakuhub.css" />
+                <link rel="shortcut icon" type="image/ico" href="/favicon.ico"/>
             </head>
             <body>
                 <App />
