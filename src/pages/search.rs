@@ -1,9 +1,9 @@
 use crate::{
-    components::{footer::*, nav_bar::*},
-    utils::search::*,
+    components::{footer::Footer, nav_bar::NavBar},
+    utils::search::search_engine,
 };
 use leptos::prelude::*;
-use leptos_meta::*;
+use leptos_meta::Title;
 use leptos_router::hooks::use_query_map;
 
 #[component]

@@ -1,4 +1,4 @@
-use leptos::{ev::*, prelude::*};
+use leptos::{ev::KeyboardEvent, prelude::*};
 use leptos_router::{NavigateOptions, hooks::use_navigate};
 use urlencoding::encode;
 

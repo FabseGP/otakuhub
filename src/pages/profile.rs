@@ -1,9 +1,9 @@
 use crate::{
-    components::{footer::*, nav_bar::*},
+    components::{footer::Footer, nav_bar::NavBar},
     config::consts::TOASTS_TIMEOUT,
 };
 use leptos::prelude::*;
-use leptos_meta::*;
+use leptos_meta::Title;
 use leptos_router::hooks::use_params_map;
 use std::time::Duration;
 

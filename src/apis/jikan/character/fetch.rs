@@ -20,7 +20,13 @@ pub async fn search_character(query: String) -> Result<Vec<Character>, ServerFnE
 
 #[server]
 pub async fn search_character_api(query: String) -> Result<Vec<Character>, ServerFnError> {
-    use crate::{apis::jikan::shared::*, config::types::HTTP_CLIENT};
+    use crate::{
+        apis::jikan::{
+            character::model::CharacterResponse,
+            shared::{RATE_LIMITER_PER_MINUTE, RATE_LIMITER_PER_SECOND},
+        },
+        config::types::HTTP_CLIENT,
+    };
     let request_url = format!("https://api.jikan.moe/v4/character?q={query}");
     RATE_LIMITER_PER_SECOND.until_ready().await;
     RATE_LIMITER_PER_MINUTE.until_ready().await;
@@ -35,7 +41,13 @@ pub async fn search_character_api(query: String) -> Result<Vec<Character>, Serve
 
 #[server]
 pub async fn all_character() -> Result<Vec<Character>, ServerFnError> {
-    use crate::{apis::jikan::shared::*, config::types::HTTP_CLIENT};
+    use crate::{
+        apis::jikan::{
+            character::model::CharacterResponse,
+            shared::{RATE_LIMITER_PER_MINUTE, RATE_LIMITER_PER_SECOND},
+        },
+        config::types::HTTP_CLIENT,
+    };
     use futures::future::join_all;
     use std::sync::Arc;
     use tokio::sync::Semaphore;

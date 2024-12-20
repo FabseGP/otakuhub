@@ -1,6 +1,6 @@
-use crate::components::{footer::*, nav_bar::*};
+use crate::components::{footer::Footer, nav_bar::NavBar};
 use leptos::prelude::*;
-use leptos_meta::*;
+use leptos_meta::Title;
 
 #[component]
 pub fn SettingsPage() -> impl IntoView {

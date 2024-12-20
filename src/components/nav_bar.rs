@@ -1,6 +1,6 @@
 use crate::{
     auth::server::{get_user, logout},
-    components::{search_bar::*, theme_selector::*},
+    components::{search_bar::SearchBar, theme_selector::ThemeSelector},
 };
 use leptos::{either::Either, prelude::*};
 use leptos_router::{NavigateOptions, components::A, hooks::use_navigate};

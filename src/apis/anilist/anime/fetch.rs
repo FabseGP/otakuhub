@@ -1,4 +1,4 @@
-use crate::apis::jikan::anime::model::*;
+use crate::apis::anilist::anime::model::Anime;
 use leptos::prelude::*;
 
 #[server]
@@ -69,7 +69,7 @@ pub async fn search_anime_api(query: String) -> Result<Vec<Anime>, ServerFnError
 
 #[server]
 pub async fn all_anime() -> Result<Vec<Anime>, ServerFnError> {
-    use crate::config::types::HTTP_CLIENT;
+    use crate::{apis::anilist::anime::model::AnimeResponse, config::types::HTTP_CLIENT};
     use leptos::logging::log;
     match HTTP_CLIENT
         .get("https://api.jikan.moe/v4/anime")

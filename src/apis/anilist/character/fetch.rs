@@ -1,4 +1,4 @@
-use crate::apis::jikan::character::model::*;
+use crate::apis::anilist::character::model::Character;
 use leptos::prelude::*;
 
 #[server]
@@ -20,7 +20,7 @@ pub async fn search_character(query: String) -> Result<Vec<Character>, ServerFnE
 
 #[server]
 pub async fn search_character_api(query: String) -> Result<Vec<Character>, ServerFnError> {
-    use crate::config::types::HTTP_CLIENT;
+    use crate::{apis::anilist::character::model::CharacterResponse, config::types::HTTP_CLIENT};
     let request_url = format!("https://api.jikan.moe/v4/character?q={query}");
     match HTTP_CLIENT.get(request_url).send().await {
         Ok(resp) => match resp.json::<CharacterResponse>().await {
@@ -33,7 +33,7 @@ pub async fn search_character_api(query: String) -> Result<Vec<Character>, Serve
 
 #[server]
 pub async fn all_character() -> Result<Vec<Character>, ServerFnError> {
-    use crate::config::types::HTTP_CLIENT;
+    use crate::{apis::anilist::character::model::CharacterResponse, config::types::HTTP_CLIENT};
     use leptos::logging::log;
     match HTTP_CLIENT
         .get("https://api.jikan.moe/v4/character")

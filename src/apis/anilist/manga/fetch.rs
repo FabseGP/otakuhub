@@ -1,4 +1,4 @@
-use crate::apis::jikan::manga::model::*;
+use crate::apis::anilist::manga::model::Manga;
 use leptos::prelude::*;
 
 #[server]
@@ -20,7 +20,7 @@ pub async fn search_manga(query: String) -> Result<Vec<Manga>, ServerFnError> {
 
 #[server]
 pub async fn search_manga_api(query: String) -> Result<Vec<Manga>, ServerFnError> {
-    use crate::config::types::HTTP_CLIENT;
+    use crate::{apis::anilist::manga::model::MangaResponse, config::types::HTTP_CLIENT};
     let request_url = format!("https://api.jikan.moe/v4/manga?q={query}");
     match HTTP_CLIENT.get(request_url).send().await {
         Ok(resp) => match resp.json::<MangaResponse>().await {
@@ -33,7 +33,7 @@ pub async fn search_manga_api(query: String) -> Result<Vec<Manga>, ServerFnError
 
 #[server]
 pub async fn all_manga() -> Result<Vec<Manga>, ServerFnError> {
-    use crate::config::types::HTTP_CLIENT;
+    use crate::{apis::anilist::manga::model::MangaResponse, config::types::HTTP_CLIENT};
     use leptos::logging::log;
     match HTTP_CLIENT
         .get("https://api.jikan.moe/v4/manga")

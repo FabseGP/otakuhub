@@ -21,7 +21,13 @@ pub async fn search_anime(query: String) -> Result<Vec<Anime>, ServerFnError> {
 
 #[server]
 pub async fn search_anime_api(query: String) -> Result<Vec<Anime>, ServerFnError> {
-    use crate::{apis::jikan::shared::*, config::types::HTTP_CLIENT};
+    use crate::{
+        apis::jikan::{
+            anime::model::AnimeResponse,
+            shared::{RATE_LIMITER_PER_MINUTE, RATE_LIMITER_PER_SECOND},
+        },
+        config::types::HTTP_CLIENT,
+    };
     let request_url = format!("https://api.jikan.moe/v4/anime?q={query}");
     RATE_LIMITER_PER_SECOND.until_ready().await;
     RATE_LIMITER_PER_MINUTE.until_ready().await;
@@ -36,7 +42,13 @@ pub async fn search_anime_api(query: String) -> Result<Vec<Anime>, ServerFnError
 
 #[server]
 pub async fn all_anime() -> Result<Vec<Anime>, ServerFnError> {
-    use crate::{apis::jikan::shared::*, config::types::HTTP_CLIENT};
+    use crate::{
+        apis::jikan::{
+            anime::model::AnimeResponse,
+            shared::{RATE_LIMITER_PER_MINUTE, RATE_LIMITER_PER_SECOND},
+        },
+        config::types::HTTP_CLIENT,
+    };
     use futures::future::join_all;
     use std::sync::Arc;
     use tokio::sync::Semaphore;
