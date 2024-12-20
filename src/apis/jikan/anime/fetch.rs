@@ -1,4 +1,4 @@
-use crate::apis::jikan::anime::model::*;
+use crate::apis::jikan::anime::model::Anime;
 use leptos::prelude::*;
 
 #[server]

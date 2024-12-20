@@ -25,7 +25,6 @@ pub struct Manga {
     pub url: String,
     pub images: MangaImageTypes,
     pub approved: bool,
-    pub trailer: MangaTrailerInfo,
     pub titles: Vec<MangaTitleTypes>,
     #[serde(rename = "type")]
     pub manga_type: Option<String>,
@@ -52,11 +51,6 @@ pub struct MangaImageTypes {
 #[derive(Deserialize, Serialize, Clone)]
 pub struct MangaImageWebp {
     pub image_url: Option<String>,
-}
-
-#[derive(Deserialize, Serialize, Clone)]
-pub struct MangaTrailerInfo {
-    pub url: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]

@@ -8,7 +8,7 @@ use axum::{
 };
 use axum_login::AuthSession;
 use leptos::prelude::*;
-use leptos_axum::handle_server_fns_with_context;
+use leptos_axum::{handle_server_fns_with_context, render_route_with_context};
 use tower_sessions::Session;
 
 pub async fn leptos_routes_handler(
@@ -17,7 +17,7 @@ pub async fn leptos_routes_handler(
     req: Request<Body>,
 ) -> Response {
     let State(app_state) = state.clone();
-    let handler = leptos_axum::render_route_with_context(
+    let handler = render_route_with_context(
         app_state.routes.clone(),
         move || {
             provide_context(auth_session.clone());

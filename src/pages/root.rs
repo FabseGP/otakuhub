@@ -1,4 +1,4 @@
-use crate::components::nav_bar::*;
+use crate::components::{footer::*, nav_bar::*};
 use leptos::prelude::*;
 use leptos_meta::*;
 
@@ -7,17 +7,21 @@ pub fn RootPage() -> impl IntoView {
     view! {
         <Title text="Otakuhub: Next-generation animanga platform!" />
         <main>
-            <div class="font-mono flex flex-col min-h-screen">
+            <div class="flex flex-col min-h-screen font-mono">
                 <NavBar />
-                <div class="container mx-auto px-4 py-8">
-                    <div class="text-center mb-8">
-                        <h1 class="text-4xl font-bold text-primary mb-4">Welcome to OtakuHub</h1>
-                        <p class="text-xl text-primary max-w-4xl mx-auto">
-                            Discover, track, and explore your favorite anime and manga with our next-generation platform.
-                            Connect with fellow otaku and dive deep into the world of Japanese entertainment.
-                        </p>
+                <div class="min-h-screen hero bg-base-200">
+                    <div class="flex-col lg:flex-row hero-content">
+                        <img src="/images/frontpage.webp" class="max-w-sm rounded-lg shadow-2xl" />
+                        <div>
+                            <h1 class="text-5xl font-bold text-primary">Welcome to OtakuHub!</h1>
+                            <p class="py-6 text-primary">
+                                Discover, track, and explore your favorite anime and manga with our next-generation platform.
+                                Connect with fellow otaku and dive deep into the world of Japanese entertainment.
+                            </p>
+                        </div>
                     </div>
                 </div>
+                <Footer />
             </div>
         </main>
     }

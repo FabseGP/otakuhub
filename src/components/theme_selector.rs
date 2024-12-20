@@ -1,6 +1,9 @@
+use crate::config::contexts::UserGlobalState;
 use leptos::prelude::*;
+use reactive_stores::Store;
+use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Store)]
 pub enum Theme {
     Acid,
     Aqua,
@@ -155,7 +158,9 @@ impl Theme {
 
 #[component]
 pub fn ThemeSelector() -> impl IntoView {
-    let (theme, set_theme) = signal(Theme::Night);
+    let user_state = expect_context::<Store<UserGlobalState>>();
+
+    let (theme, set_theme) = signal(user_state.get().theme_preference.unwrap_or(Theme::Night));
     let (is_open, set_is_open) = signal(false);
     let (search_query, set_search_query) = signal(String::new());
 
@@ -174,6 +179,9 @@ pub fn ThemeSelector() -> impl IntoView {
                 .unwrap();
         }
         set_theme.set(new_theme);
+        user_state.update(|state| {
+            state.theme_preference = Some(new_theme);
+        });
         set_is_open.set(false);
     };
 
@@ -181,57 +189,39 @@ pub fn ThemeSelector() -> impl IntoView {
         <div class="dropdown dropdown-end">
             <label
                 tabindex="0"
-                class="btn btn-sm m-1 md:btn-md"
+                class="m-1 btn btn-sm md:btn-md"
                 on:click=move |_| set_is_open.set(!is_open.get())
                 on:touchstart=move |_| set_is_open.set(!is_open.get())
             >
                 <svg
-                    class="inline-block w-4 h-4 md:w-5 md:h-5 stroke-current"
+                    class="inline-block w-4 h-4 stroke-current md:w-5 md:h-5"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                 >
                     <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                 </svg>
-                <span class="hidden md:inline ml-1">{move || theme.get().display_name()}</span>
+                <span class="hidden ml-1 md:inline">{move || theme.get().display_name()}</span>
             </label>
-            <div class="
-            dropdown-content 
-            relative
-            left-0  
-            transform 
-            mt-2 
-            z-50 
-            menu 
-            p-2 
-            shadow 
-            bg-base-200 
-            rounded-box 
-            w-64 
-            max-h-96 
-            overflow-y-auto 
-            text-base-content
-            ">
-                <div class="sticky top-0 bg-base-200 p-2">
+            <div class="overflow-y-auto relative left-0 z-50 p-2 mt-2 w-64 max-h-96 shadow transform dropdown-content menu bg-base-200 rounded-box text-base-content">
+                <div class="sticky top-0 p-2 bg-base-200">
                     <input
                         type="text"
                         placeholder="Search themes..."
-                        class="input input-sm input-bordered w-full text-base-content"
+                        class="w-full input input-sm input-bordered text-base-content"
                         on:input=move |ev| set_search_query.set(event_target_value(&ev))
                     />
                 </div>
-
                 {move || {
                     filtered_themes()
                         .into_iter()
-                        .map(|t| {
-                            let theme_value = t;
+                        .map(|theme| {
                             view! {
                                 <button
-                                    class="flex items-center gap-2 px-4 py-2 hover:bg-base-300 rounded-lg w-full"
-                                    on:click=move |_| change_theme(theme_value)
+                                    class="flex gap-2 items-center py-2 px-4 w-full rounded-lg hover:bg-base-300"
+                                    on:click=move |_| change_theme(theme)
                                 >
-                                    <span>{theme_value.display_name()}</span>
+                                    <span>{theme.display_name()}</span>
                                 </button>
                             }
                         })

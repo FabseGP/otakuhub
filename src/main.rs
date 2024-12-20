@@ -1,14 +1,9 @@
-#![feature(let_chains)]
 #![recursion_limit = "256"]
 
 #[cfg(feature = "ssr")]
 #[tokio::main]
 async fn main() {
-    use axum::{
-        Router,
-        routing::{get, post},
-        serve,
-    };
+    use axum::{Router, routing::get, serve};
     use axum_login::AuthManagerLayerBuilder;
     use leptos::prelude::*;
     use leptos_axum::{LeptosRoutes, file_and_error_handler, generate_route_list};
@@ -149,7 +144,7 @@ async fn main() {
 
     let app_state = AppState {
         pool,
-        leptos_options: leptos_options.clone(),
+        leptos_options,
         routes: routes.clone(),
     };
 
@@ -162,7 +157,10 @@ async fn main() {
 
     let app = Router::new()
         .leptos_routes_with_handler(routes, get(leptos_routes_handler))
-        .route("/api/*fn_name", post(server_func_handler))
+        .route(
+            "/api/*fn_name",
+            get(server_func_handler).post(server_func_handler),
+        )
         .fallback(file_and_error_handler::<AppState, _>(shell))
         .layer(auth_session_layer)
         .layer(

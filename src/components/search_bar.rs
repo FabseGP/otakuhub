@@ -12,7 +12,7 @@ pub fn SearchBar() -> impl IntoView {
             <input
                 type="text"
                 placeholder="Search animanga..."
-                class="input input-sm md:input-md input-bordered w-full text-base-content"
+                class="w-full input input-sm input-bordered text-base-content text-primary md:input-md"
                 prop:value=search_query
                 on:input=move |ev| set_search_query.set(event_target_value(&ev))
                 on:keypress=move |ev: KeyboardEvent| {
@@ -20,8 +20,8 @@ pub fn SearchBar() -> impl IntoView {
                         let query = move || search_query.get();
                         if !query().is_empty() {
                             navigate(
-                                &format!("/search?q={}", encode(&query())),
-                                NavigateOptions::default()
+                                &format!("/search/anime?q={}", encode(&query())),
+                                NavigateOptions::default(),
                             );
                         }
                     }

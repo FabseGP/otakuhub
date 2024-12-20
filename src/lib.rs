@@ -1,5 +1,6 @@
 #![feature(let_chains)]
 #![feature(duration_constructors)]
+#![recursion_limit = "256"]
 
 pub mod apis;
 pub mod app;
