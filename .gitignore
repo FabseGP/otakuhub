@@ -14,7 +14,7 @@ Cargo.lock
 *.pdb
 
 .env
-config.toml
+./config.toml
 node_modules
 package.json
 package-lock.json
