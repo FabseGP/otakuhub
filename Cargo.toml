@@ -133,6 +133,12 @@ lib-default-features = true
 # Optional. Defaults to "release".
 lib-profile-release = "wasm-release"
 
+# Enabling wasm-opt features
+#
+# Optional. By default, "-Oz" and "--enable-bulk-memory" are used. For all features, consult `wasm-opt --help`.
+# By providing features, you will override the default enabled features.
+wasm-opt-features = ["-Oz","--enable-bulk-memory", "--enable-nontrapping-float-to-int"]
+
 [lints.clippy]
 all = "warn"
 nursery = "warn"

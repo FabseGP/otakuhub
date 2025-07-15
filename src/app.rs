@@ -32,7 +32,7 @@ pub fn App() -> impl IntoView {
     view! {
         <Stylesheet id="leptos" href="/pkg/{{project-name}}.css"/>
 
-        <Title text="Welcome to Leptos"/>
+        <Title text="Welcome to Otakuhub"/>
 
         <Router>
             <main>
