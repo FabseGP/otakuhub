@@ -1,0 +1,24 @@
+[Main]
+log_level = 'info'
+jaeger = 'http://192.168.0.249:4317'
+site_name = 'otakuhub'
+
+[PostgreSQL]
+database = 'otakuhub'
+password = 'Vocalize7Dupe7Seclusion97Waving7Cymbal'
+host = '192.168.0.249'
+port = 5493
+user = 'fabseserverpostdata'
+max_connections = 20
+
+[Auth]
+session_timeout_seconds = 60
+session_cleanup_interval_seconds = 60
+table_name = 'sessions'
+
+[Meilisearch]
+host = 'https://meilisearch.fabseman.space'
+master_key = 'Sprawl13Skimpily3Luminance3Trifle3Immature'
+
+[APIS]
+fetch_interval_hours = 24
